@@ -13,8 +13,8 @@ unittest{
                                    "91212129": 9];
     foreach (example_string, expected_output; example_input_1)
     {
-        assert(sum_adjacent_pairs(example_string) == expected_output);
-        writeln(example_string, " ", expected_output);
+        auto example_ints = example_string.splitter("").map!(to!int).array;
+        assert(sum_adjacent_pairs(example_ints) == expected_output);
     }
 
     int[string] example_input_2 = ["1212": 6, 
@@ -24,14 +24,14 @@ unittest{
                                    "12131415": 4];
     foreach (example_string, expected_output; example_input_2)
     {
-
+        auto example_ints = example_string.splitter("").map!(to!int).array;
+        assert(sum_halfway_pairs(example_ints) == expected_output);
     }
 }
 
 
-auto sum_adjacent_pairs(string input_string)
+auto sum_adjacent_pairs(int[] input_ints)
 {
-    auto input_ints = input_string.splitter("").map!(to!int).array;
     input_ints ~= input_ints[0];
 
     int[] to_sum;
@@ -44,14 +44,22 @@ auto sum_adjacent_pairs(string input_string)
             to_sum ~= p[0];
         }
     }
-
     return sum(to_sum);
 }
 
 
-auto sum_halfway_pairs(string input_string)
+auto sum_halfway_pairs(int[] input_ints)
 {
-    
+    int[] to_sum;
+    foreach (i, input_int; input_ints)
+    {
+        auto lookahead = (i + input_ints.length/2) % input_ints.length; 
+        if (input_int == input_ints[lookahead])
+        {
+            to_sum ~= input_int;
+        }
+    }
+    return sum(to_sum);
 }
 
 
@@ -59,8 +67,11 @@ void main(string[] argv)
 {
     foreach (input_string; argv[1..$])
     {
-        write(input_string, ": ");
-        auto sum_results = sum_adjacent_pairs(input_string);
-        writeln(sum_results);
+        //write(input_string, ": ");
+        auto input_ints = input_string.splitter("").map!(to!int).array;
+        auto first_sum = sum_adjacent_pairs(input_ints);
+        write(first_sum, " ");
+        auto second_sum = sum_halfway_pairs(input_ints);
+        writeln(second_sum, " ");
     }
 }
