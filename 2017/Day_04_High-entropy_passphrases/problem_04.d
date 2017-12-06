@@ -35,13 +35,12 @@ bool valid_passphrase_2(string[] passphrase)
     bool* seen_before;
     char[] sorted_word_array;
     string sorted_word;
-    write(passphrase, ": ");
     foreach (word; passphrase)
     {
-        sorted_word_array = to!(char[])(word.representation); // The plan is to sort this array, but I can't figure out how just now.
+        sorted_word_array = word.dup;
+        sort(sorted_word_array.representation);
         sorted_word = to!string(sorted_word_array);
         seen_before = (sorted_word in words);
-        write(sorted_word_array, " ", sorted_word, " ", seen_before, ".");
         if (seen_before is null)
         {
             words[sorted_word] = true;
@@ -49,7 +48,6 @@ bool valid_passphrase_2(string[] passphrase)
             words[sorted_word] = false;
         }
     }
-    writeln();
     return all(words.byValue.array);
 }
 
