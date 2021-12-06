@@ -42,8 +42,15 @@ def draw_lines(lines):
         vertical_line = start[1] == end[1]
         if vertical_line:
             canvas.iloc[start[0]:end[0]+1,start[1]] = canvas.iloc[start[0]:end[0]+1,start[1]].apply(lambda x: x+1)
-        if horizontal_line:
+        elif horizontal_line:
             canvas.iloc[start[0],start[1]:end[1]+1] = canvas.iloc[start[0],start[1]:end[1]+1].apply(lambda x: x+1)
+        else:
+            xp = [start[0], end[0]]
+            yp = [start[1], end[1]]
+            xs = np.arange(start[0], end[0]+1)
+            interp_y = list(int(n) for n in np.interp(xs, xp, yp))
+            for x, y in zip(xs, interp_y):
+                canvas.iloc[x, y] = canvas.iloc[x, y] + 1
     return canvas
 
 def compute_overlaps(canvas, num_overlaps=2):
