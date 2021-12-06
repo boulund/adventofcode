@@ -4,10 +4,10 @@ __author__ = "Fredrik Boulund"
 __date__ = "2021-12-06"
 
 from sys import argv, exit
+from collections import defaultdict
 import argparse
 
 import pandas as pd
-
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -20,17 +20,22 @@ def parse_args():
     return parser.parse_args()
 
 def parse_input(input_file):
+    fish = defaultdict(int)
     with open(input_file) as f:
-        values = [int(n) for n in f.readline().strip().split(",")]
-        fish = pd.Series(name="Lanternfish", data=values)
+        for value in f.readline().strip().split(","):
+            fish[int(value)] += 1
     return fish
 
 def simulate(fish):
-    older_fish = fish - 1
-    mother_fish = older_fish < 0
-    baby_fish = pd.Series(8).repeat(mother_fish.sum())
-    older_fish = older_fish.append(baby_fish)
-    older_fish[older_fish < 0] = 6
+    older_fish = defaultdict(int)
+    for age in fish:
+        if age-1 < 0:
+            # One new fish for every fish of age 0
+            older_fish[8] += fish[age] 
+            # Restore age of fish that multiplied
+            older_fish[6] += fish[age]
+        else:
+            older_fish[age-1] += fish[age]
     return older_fish
     
 if __name__ == "__main__":
@@ -42,8 +47,13 @@ if __name__ == "__main__":
     fish = initial_fish
     for n in range(days):
         fish = simulate(fish)
-    print(fish.shape[0])
+    print(sum(fish.values()))
 
+    days = 256
+    fish = initial_fish
+    for n in range(days):
+        fish = simulate(fish)
+    print(sum(fish.values()))
 
     
 
