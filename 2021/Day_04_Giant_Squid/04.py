@@ -33,13 +33,19 @@ def parse_input(input_file):
     return numbers, boards, num_boards
     
 def play_bingo(numbers, boards, num_boards):
+    unfinished_boards = list(range(num_boards))
+    winning_boards = 0
+    first_to_win = None
     for round, _ in enumerate(numbers, start=5):
         drawn = numbers[:round]
-        for board_number in range(num_boards):
+        for board_number in unfinished_boards:
             bingo = check_for_bingo(drawn, boards.loc[f"Board{board_number}"])
             if bingo:
-                return bingo
-    return "NO BINGO"
+                if not first_to_win:
+                    first_to_win = bingo
+                winning_boards += 1
+                unfinished_boards.remove(board_number)
+    return first_to_win, bingo
 
 def check_for_bingo(drawn_numbers, board):
     for idx in range(5):
@@ -59,8 +65,9 @@ if __name__ == "__main__":
     args = parse_args()
 
     numbers, boards, num_boards = parse_input(args.problem_input)
-    bingo = play_bingo(numbers, boards, num_boards)
-    print(bingo)
+    first_to_win, last_to_win = play_bingo(numbers, boards, num_boards)
+    print(first_to_win)
+    print(last_to_win)
 
 
 
