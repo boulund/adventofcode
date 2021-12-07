@@ -43,8 +43,13 @@ if __name__ == "__main__":
     print(required_fuel)
 
     weighted_target_pos = int(np.round(np.mean(positions)))
+    reqs = []
+    for tpos in np.arange(max(weighted_target_pos-100, 0), weighted_target_pos+100):
+        reqs.append(compute_weighted_fuel_requirement(positions, tpos))
+    print(reqs.index(min(reqs)), min(reqs))
+
     weighted_fuel_requirement = compute_weighted_fuel_requirement(positions, weighted_target_pos)
-    print(weighted_fuel_requirement)
+    print(weighted_target_pos, weighted_fuel_requirement)
 
 
 
