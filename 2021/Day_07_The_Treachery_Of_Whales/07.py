@@ -23,18 +23,28 @@ def parse_input(input_file):
         positions = [int(n) for n in f.readline().strip().split(",")]
     return positions
 
-def compute_fuel_consumption(positions, target_pos):
-    required_fuel = [int(np.abs(pos - target_pos)) for pos in positions]
-    return required_fuel
+def compute_steps(positions, target_pos):
+    required_steps = [int(np.abs(pos - target_pos)) for pos in positions]
+    return required_steps
+
+def compute_weighted_fuel_requirement(positions, target_pos):
+    required_steps = compute_steps(positions, target_pos)
+    required_fuel = [np.add.reduce(range(n+1)) for n in required_steps]
+    return int(sum(required_fuel))
+
     
 if __name__ == "__main__":
     args = parse_args()
 
     positions = parse_input(args.problem_input)
 
-    target_pos = np.median(positions)
-    print(sum(compute_fuel_consumption(positions, target_pos)))
+    target_pos = int(np.median(positions))
+    required_fuel = sum(compute_steps(positions, target_pos))
+    print(required_fuel)
 
+    weighted_target_pos = int(np.round(np.mean(positions)))
+    weighted_fuel_requirement = compute_weighted_fuel_requirement(positions, weighted_target_pos)
+    print(weighted_fuel_requirement)
 
 
 
