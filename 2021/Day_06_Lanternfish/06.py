@@ -7,8 +7,6 @@ from sys import argv, exit
 from collections import defaultdict
 import argparse
 
-import pandas as pd
-
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("problem_input")
