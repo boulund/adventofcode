@@ -5,8 +5,6 @@ __date__ = "2022-12-01"
 
 from sys import argv, exit
 from itertools import groupby
-from functools import reduce
-
 
 if __name__ == "__main__":
     if len(argv) < 2:
@@ -16,4 +14,5 @@ if __name__ == "__main__":
     elves = [list(int(calories) for calories in group) for k, group in groupby(open(argv[1]).readlines(), key=lambda x: bool(x.strip())) if k]
     elven_sums = [sum(elf) for elf in elves]
     print(max(elven_sums))
+    print(sum(sorted(elven_sums, reverse=True)[:3]))
 
