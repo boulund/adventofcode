@@ -2,6 +2,7 @@
 Toying with some of the problems from AdventOfCode.com
 
 ## History
+- 2022: Python, D, ...
 - 2021: Python again.
 - 2020: No time, but Winni and I gave a pair programming presentation using one
   of the problems.
