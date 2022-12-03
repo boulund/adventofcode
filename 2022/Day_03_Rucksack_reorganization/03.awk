@@ -12,10 +12,12 @@ alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #print "a priority is:", ord("a");
 #print "A priority is:", ord("A");
 sum_priorities=0;
+line=0;
 }
 
 
 {
+###### Part one
 rucksacks=$0;
 
 r_size=length($0)/2;
@@ -41,8 +43,33 @@ for (l_item in left_items) {
 
 delete left_items;
 delete right_items;
+
+###### Part two
+line++;
+group[line % 3]=$0;
+if (line % 3 == 0) {
+	for (r in group) {
+		rucksack=group[r];
+		for (i=1; i<=length(rucksack); i++) {
+			items[r][substr(rucksack,i,1)]++;
+		}
+	}
+	for (r in group) {
+		for (char in items[r]) {
+			shared_counts[char]++;
+		}
+	}
+	for (char in shared_counts) {
+		if (shared_counts[char] == 3) {
+			group_priorities+=ord(char);
+		}
+	}
+	delete items;
+	delete shared_counts;
+}
 }
 
 END {
 print sum_priorities;
+print group_priorities;
 }
