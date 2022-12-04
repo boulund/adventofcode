@@ -7,8 +7,8 @@ if [ $# -lt 1 ]; then
   exit 1
 fi 
 
-IFS=","
 contained=0
+overlaps=0
 while read line || [ -n "$line" ]; do
   e1=${line%,*}
   e1s=${e1%-*}
@@ -19,6 +19,16 @@ while read line || [ -n "$line" ]; do
   if ([ $e1s -le $e2s ] && [ $e1e -ge $e2e ]) || ([ $e2s -le $e1s ] && [ $e2e -ge $e1e ]); then
     contained=$((contained + 1))
   fi
+  if [ $e1e -le $e2s ]; then
+    if [ $e1e -ge $e2s ]; then
+      overlaps=$((overlaps + 1))
+    fi
+  else
+    if [ $e2e -ge $e1s ]; then
+      overlaps=$((overlaps + 1))
+    fi
+  fi
 done < $1
 
 echo $contained
+echo $overlaps
