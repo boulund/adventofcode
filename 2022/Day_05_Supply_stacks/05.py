@@ -4,6 +4,7 @@ __author__ = "Fredrik Boulund"
 __date__ = "2022-12-05"
 
 from sys import argv, exit
+from copy import deepcopy
 
 if len(argv) < 2:
     print("usage: 05.py INPUT")
@@ -31,14 +32,23 @@ def parse_input(infile):
             instructions.append((int(num), int(src), int(dest)))
     return create_stacks(stack_data[::-1]), instructions
 
-def execute(stacks, instructions):
+def execute(stacks, instructions, step2=False):
     for num, src, dest in instructions:
-        for n in range(num):
-            stacks[dest].append(stacks[src].pop())
+        if step2:
+            crates = []
+            for n in range(num):
+                crates.append(stacks[src].pop())
+            stacks[dest].extend(crates[::-1])
+        else:
+            for n in range(num):
+                stacks[dest].append(stacks[src].pop())
     return stacks
 
 
 stacks, instructions = parse_input(argv[1])
 
-result = execute(stacks, instructions)
+result = execute(deepcopy(stacks), instructions)
 print("".join([l[-1] for s, l in result.items()]))
+
+result2 = execute(stacks, instructions, step2=True)
+print("".join([l[-1] for s, l in result2.items()]))
