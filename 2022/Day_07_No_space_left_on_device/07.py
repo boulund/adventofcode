@@ -54,12 +54,17 @@ def get_dir_sizes(node):
         node_sizes[f"{node['parent'].get('name')}/{node['name']}"] = node["size"]
     return node_sizes
 
-#print(get_dir_sizes(root))
+dir_sizes = dict(sorted(get_dir_sizes(root).items(), key=lambda item: item[1]))
 
+required_space = 3e7
+consumed_space = 7e7 - list(dir_sizes.values())[-1]
 total = 0
-for dirname, size in get_dir_sizes(root).items():
+for dirname, size in dir_sizes.items():
     if size <= 100000:
         total += size
         #print(dirname, size)
+    if size > (required_space - consumed_space):
+        print(dirname, size)
+        break
 
 print(total)
