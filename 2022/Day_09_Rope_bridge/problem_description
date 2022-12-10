@@ -47,6 +47,7 @@ the tail must also move one step in that direction so it remains close enough:
 .H. -> ... -> .T.
 ...    .H.    .H.
 ...    ...    ...
+
 Otherwise, if the head and tail aren't touching and aren't in the same row or column, the tail always moves one step diagonally to keep up:
 
 .....    .....    .....
@@ -60,6 +61,7 @@ Otherwise, if the head and tail aren't touching and aren't in the same row or co
 ..H.. -> ...H. -> ..TH.
 .T...    .T...    .....
 .....    .....    .....
+
 You just need to work out where the tail goes as the head follows a series of motions. Assume the head and the tail both start at the same position, overlapping.
 
 For example:
