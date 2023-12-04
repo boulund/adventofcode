@@ -5,6 +5,7 @@ __date__ = "2023"
 
 from sys import argv, exit
 from collections import defaultdict
+from math import prod
 
 if len(argv) < 2:
     print("usage: 02.py INPUT")
@@ -26,8 +27,19 @@ def is_impossible(game):
                 return True
     return False
 
+def compute_power(game):
+    colors = defaultdict(int)
+    for _set in game:
+        for color, num in _set.items():
+            colors[color] = max(colors[color], num)
+    return prod(colors.values())
+
 possible = []
+powers = []
 for game_no, game in games.items():
     if not is_impossible(game):
         possible.append(game_no)
+    powers.append(compute_power(game))
 print(sum(possible))
+print(sum(powers))
+
