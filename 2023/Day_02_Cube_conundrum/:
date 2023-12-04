@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+"""AdventOfCode 2023: Day 2 - Cube conundrum"""
+__author__ = "Fredrik Boulund"
+__date__ = "2023"
+
+from sys import argv, exit
+from collections import Counter
+
+if len(argv) < 2:
+    print("usage: 02.py INPUT")
+    exit(1)
+
+games = {}
+with open(argv[1]) as f:
+    for line in f:
+        game_no, games = line.split(":")
+        for game in games.split(";"):
+            print({c: n for c, n in nc for nc.split() in game.strip().split(", ")})
+            #counts = {n: c for n, c in nc.split(" ") for nc in game.split(",")}
+            #print(counts)
+        
+
