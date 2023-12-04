@@ -19,27 +19,24 @@ with open(argv[1]) as f:
             counts = {c: int(n) for n, c in (nc.split() for nc in _set.strip().split(", "))}
             games[int(game_no.split()[1])].append(counts)
 
-def is_impossible(game):
+def possible_power(game):
+    impossible = False
     cubes = {"red": 12, "green": 13, "blue": 14}
-    for _set in game:
-        for color, num in _set.items():
-            if cubes[color] < num:
-                return True
-    return False
-
-def compute_power(game):
     colors = defaultdict(int)
     for _set in game:
         for color, num in _set.items():
+            if cubes[color] < num:
+                impossible = True
             colors[color] = max(colors[color], num)
-    return prod(colors.values())
+    return impossible, prod(colors.values())
 
 possible = []
 powers = []
 for game_no, game in games.items():
-    if not is_impossible(game):
+    is_impossible, power = possible_power(game)
+    if not is_impossible:
         possible.append(game_no)
-    powers.append(compute_power(game))
+    powers.append(power)
 print(sum(possible))
 print(sum(powers))
 
