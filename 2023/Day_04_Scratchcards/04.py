@@ -4,6 +4,7 @@ __author__ = "Fredrik Boulund"
 __date__ = "2023"
 
 from sys import argv, exit
+from math import floor
 
 if len(argv) < 2:
     print("usage: 04.py INPUT")
@@ -22,10 +23,7 @@ with open(argv[1]) as f:
 
 def score(draw, winning):
     intersection = draw.intersection(winning)
-    if intersection:
-        return 2**(len(intersection)-1)
-    else:
-        return 0
+    return floor(2**(len(intersection)-1))
 
 scores = []
 for card, data in cards.items():
