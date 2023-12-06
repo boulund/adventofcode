@@ -28,3 +28,15 @@ for max_time, max_distance in zip(times, distances):
             win += 1
     wins.append(win)
 print(prod(wins))
+
+with open(argv[1]) as f:
+    time = int(f.readline().strip().replace(" ", "").split(":")[1])
+    distance = int(f.readline().strip().replace(" ", "").split(":")[1])
+
+wins = []
+win = 0
+for hold_time in range(time):
+    if compute_distance(hold_time, time) > distance:
+        win += 1
+wins.append(win)
+print(prod(wins))
