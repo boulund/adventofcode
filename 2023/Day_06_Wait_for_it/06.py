@@ -28,9 +28,8 @@ for max_time, max_distance in zip(times, distances):
             break
 print(prod(wins))
 
-with open(argv[1]) as f:
-    time = int(f.readline().strip().replace(" ", "").split(":")[1])
-    distance = int(f.readline().strip().replace(" ", "").split(":")[1])
+time = int("".join(str(t) for t in times))
+distance = int("".join(str(d) for d in distances))
 
 wins = []
 for idx, hold_time in enumerate(range(time)):
