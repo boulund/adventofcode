@@ -22,11 +22,10 @@ def compute_distance(hold_time, max_time):
 
 wins = []
 for max_time, max_distance in zip(times, distances):
-    win = 0
-    for hold_time in range(max_time):
+    for idx, hold_time in enumerate(range(max_time)):
         if compute_distance(hold_time, max_time) > max_distance:
-            win += 1
-    wins.append(win)
+            wins.append(len(range(0+idx, max_time-idx+1)))
+            break
 print(prod(wins))
 
 with open(argv[1]) as f:
@@ -34,9 +33,8 @@ with open(argv[1]) as f:
     distance = int(f.readline().strip().replace(" ", "").split(":")[1])
 
 wins = []
-win = 0
-for hold_time in range(time):
+for idx, hold_time in enumerate(range(time)):
     if compute_distance(hold_time, time) > distance:
-        win += 1
-wins.append(win)
-print(prod(wins))
+        wins = len(range(0+idx, time-idx+1))
+        break
+print(wins)
