@@ -10,22 +10,35 @@ if len(argv) < 2:
     exit()
 
 with open(argv[1]) as infile:
-    grid = []
-    grid = [row.strip() for row in infile.readlines()]
+    grid = [list(row.strip()) for row in infile.readlines()]
 
-#for row in grid:
-#    print(row)
-movable_rolls = 0
-for rowidx, row in enumerate(grid):
-    for colidx, location in enumerate(row):
-        if location == "@":
-            nearby_rolls = -1
-            rows = range(max(rowidx-1, 0), min(rowidx+2, len(grid)))
-            cols = range(max(colidx-1, 0), min(colidx+2, len(grid)))
-            for ridx in rows:
-                for cidx in cols:
-                    if grid[ridx][cidx] == "@":
-                        nearby_rolls += 1
-            if nearby_rolls < 4:
-                movable_rolls += 1
-print(movable_rolls)
+def identify_movable_rolls(grid):
+    movable_rolls = []
+    for rowidx, row in enumerate(grid):
+        for colidx, location in enumerate(row):
+            if location == "@":
+                nearby_rolls = -1
+                rows = range(max(rowidx-1, 0), min(rowidx+2, len(grid)))
+                cols = range(max(colidx-1, 0), min(colidx+2, len(grid)))
+                for ridx in rows:
+                    for cidx in cols:
+                        if grid[ridx][cidx] == "@":
+                            nearby_rolls += 1
+                if nearby_rolls < 4:
+                    movable_rolls.append((rowidx, colidx))
+    return movable_rolls
+
+movable_rolls = identify_movable_rolls(grid)
+print(len(movable_rolls))
+
+def remove_rolls(grid, movable_rolls):
+    for row, col in movable_rolls:
+        grid[row][col] = "."
+    return grid
+
+total_removed = 0
+while movable_rolls:
+    movable_rolls = identify_movable_rolls(grid)
+    grid = remove_rolls(grid, movable_rolls)
+    total_removed += len(movable_rolls)
+print(total_removed)
