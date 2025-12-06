@@ -4,6 +4,7 @@ __date__ = "2025-12-06"
 """ Advent of Code 2025, day 06"""
 
 from sys import argv, exit
+from math import prod
 import pandas as pd
 
 if len(argv) < 2:
@@ -34,9 +35,9 @@ for col in df2.columns[::-1]:
         running_total.append(int(number))
     func = df2[col].iloc[-1]
     if func == "+":
-        grand_total += pd.Series(running_total).sum()
+        grand_total += sum(running_total)
         running_total = []
     elif func == "*":
-        grand_total += pd.Series(running_total).prod()
+        grand_total += prod(running_total)
         running_total = []
 print(grand_total)
