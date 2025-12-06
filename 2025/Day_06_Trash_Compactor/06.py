@@ -22,3 +22,21 @@ for function, col in df.items():
     totals.append(total)
 print(sum(totals))
 
+with open(argv[1]) as infile:
+    rows = [list(row.strip("\n")) for row in infile.readlines()]
+df2 = pd.DataFrame(rows)
+#print(df2)
+running_total = []
+grand_total = 0
+for col in df2.columns[::-1]:
+    number = "".join(list(df2[col])[:-1]).strip()
+    if number:
+        running_total.append(int(number))
+    func = df2[col].iloc[-1]
+    if func == "+":
+        grand_total += pd.Series(running_total).sum()
+        running_total = []
+    elif func == "*":
+        grand_total += pd.Series(running_total).prod()
+        running_total = []
+print(grand_total)
