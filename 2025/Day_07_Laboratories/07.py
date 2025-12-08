@@ -4,8 +4,6 @@ __date__ = "2025-12-07"
 """ Advent of Code 2025, day 07"""
 
 from sys import argv, exit
-from math import prod
-import pandas as pd
 
 if len(argv) < 2:
     print("usage: 07.py INPUT")
