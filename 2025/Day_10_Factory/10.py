@@ -4,9 +4,6 @@ __date__ = "2025-12-10"
 """ Advent of Code 2025, day 10"""
 
 from sys import argv, exit
-from collections import defaultdict
-from itertools import combinations
-import pprint
 
 if len(argv) < 2:
     print("usage: 10.py INPUT")
