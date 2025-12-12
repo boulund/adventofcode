@@ -29,28 +29,23 @@ def flatten(items):
 
 def press_buttons(states, buttons):
     new_states = []
-    for state in flatten(states):
+    for state in states:
         new_state = []
         for button in buttons:
             new_state.append(state.symmetric_difference(button))
         new_states.append(new_state)
-    return new_states
+    return set(flatten(new_states))
 
 def search(buttons, lights):
-    level = 1
-    for button in buttons:
-        if button == lights:
-            print("TRIVIAL!", button)
-            return level
-    states = buttons
+    level = 0
+    states = [frozenset()]
     while True:
         level += 1
         states = press_buttons(states, buttons)
-        for state in states:
-            for status_lights in state:
-                if status_lights == lights:
-                    print(f"SUCCESS in {level} button presses")
-                    return level
+        for status_lights in states:
+            if status_lights == lights:
+                print(f"SUCCESS in {level} button presses")
+                return level
 
 button_presses = []
 for lights, buttons, joltage_requirements in machines:
